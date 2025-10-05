@@ -67,6 +67,43 @@ mts-check --phone 79XXXXXXXXX --cookies-file ~/mts_cookies.txt --output json
 | `--verbose` | Вывод логов процесса получения данных в `stderr`. | 
 | `--hide-phone` | Спрятать номер телефона в выводе. | 
 
+## Пример с библиотекой
+
+```py
+import json, sys
+from mts_balance_checker import MTSClient, LOCALES
+
+PHONE_NUMBER = "79110001122"
+COOKIE_STRING = """JSESSIONID=...; lk_mts_sid=...""" 
+
+client = MTSClient(
+    phone_number=PHONE_NUMBER, 
+    cookie_string=COOKIE_STRING, 
+    locale_func=lambda key: LOCALES['ru'][key]
+)
+
+balance_data = client.get_ruble_balance(lambda msg: None)
+traffic_data = client.get_traffic_data(lambda msg: None)
+
+full_data = {}
+full_data.update(balance_data)
+full_data.update(traffic_data)
+
+print(json.dumps(full_data, indent=2, ensure_ascii=False))
+```
+```
+{
+  "ruble_balance_raw": 171.51,
+  "deadline_date": "26.10.2025",
+  "remaining_internet_kb": 27240978.0,
+  "total_internet_kb": 31457280.0,
+  "remaining_minutes_sec": 24300.0,
+  "total_minutes_sec": 36000.0,
+  "remaining_sms_count": 600.0,
+  "total_sms_count": 600.0
+}
+```
+
 ## Лицензия
 
 Проект распространяется под лицензией **MIT**. Подробнее см. в файле `LICENSE`.
