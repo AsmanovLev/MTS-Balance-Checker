@@ -11,7 +11,7 @@
 
 Вы можете установить пакет с помощью `pip`:
 ```
-https://pypi.org/project/mts-balance-checker/0.1.0/
+pip install mts-balance-checker
 ```
 
 ## Использование
