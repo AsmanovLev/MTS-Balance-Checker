@@ -1,3 +1,4 @@
 *cookies*
 *.egg*
 __pycache__
+dist
